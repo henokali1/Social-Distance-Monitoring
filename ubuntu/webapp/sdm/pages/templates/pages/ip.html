@@ -1,0 +1,102 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% load static %}
+{% block title %}IP-{{data.ip}}{% endblock %}
+{% block style %}
+<style>
+    @media print {
+  .noPrint{
+    display:none;
+  }
+}
+</style> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+{% endblock %}
+{% block body %}
+{% if user.is_authenticated %}
+<p>
+    <a class="btn right noPrint" style="margin: 0.5rem; background-color: #ff4081;" href="{% url 'account_logout' %}">Log Out</a>
+    <a class="btn left noPrint" style="margin: 0.5rem; background-color: #ff4081;" href="/">Reports</a>
+</p><br>
+
+
+<div class="container" style="padding-top: 100px;">
+    <div class="card">
+        <br><br>
+        <div class="row">
+            <center><h5><b><span style="color: green;" id="stat">Connecting...</span></b></h5></center>
+            <center><h5>IP: <b><span id="ip">-</span></b></h5></center> 
+            <center>
+              <h5>Last Update: <b><span id="dt">-</span></b></h5>
+              <h5>RAW: <b><span id="raw">-</span></b></h5>
+                <a id="cpy"  onclick="copy_ip()" class="btn"><i class="material-icons right">content_copy</i>Copy IP</a>
+            </center>
+            <br><br>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    </script>
+
+<script>
+    cp_ip = ""
+    lattest_data_url = '/get_ip'
+    function executeQuery() {
+      $.getJSON( lattest_data_url, function(data) {
+            //   console.log(data)
+              dt = new Date(data['ts']*1000).toLocaleString();
+              cp_ip = `${data['ip']}`
+              document.title = `IP-${data['ip']}`
+              raw = data['raw']
+              sp = raw.split('---')
+              for (const val in sp) {
+                if(sp[val].includes('192.168')){
+                  data['ip'] = sp[val]
+                }
+              }
+            if(data['ip_exp']){
+                document.getElementById('stat').innerText = `Device Offline`
+                document.getElementById('stat').style.color = 'red'
+                document.getElementById('ip').innerText = `${data['ip']}`
+                document.getElementById('dt').innerText = `${dt}`
+                document.getElementById('raw').innerText = `${data['raw']}`
+                document.getElementById("cpy").classList.remove("teal");
+                document.getElementById("cpy").classList.add("red");
+            } else {
+                document.getElementById('stat').innerText = ``
+                document.getElementById('ip').innerText = `${data['ip']}`
+                document.getElementById('dt').innerText = `${dt}`
+                document.getElementById('raw').innerText = `${data['raw']}`
+                document.getElementById("cpy").classList.remove("red");
+                document.getElementById("cpy").classList.add("teal");
+            }
+          })
+      setTimeout(executeQuery, 1000); // you could choose not to continue on failure...
+    }
+    
+    $(document).ready(function() {
+    // run the first time; all subsequent calls will take care of themselves
+    setTimeout(executeQuery, 1000);
+    });
+
+    
+    function copy_ip() {
+            var copyText = document.getElementById("ip");
+            var textArea = document.createElement("textarea");
+            textArea.value = copyText.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("Copy");
+            textArea.remove();
+            M.toast({html: "IP Copied"})
+        }
+</script>
+
+{% else %}
+  <script>window.open("/accounts/login/","_self")</script>
+{% endif %}
+
+{% endblock body %}

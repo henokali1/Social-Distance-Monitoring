@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href=
+    "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" 
+    media="screen,projection"/>
+
+    <!-- QUERYMINE Page Center Css -->
+
+    <style>
+            html,
+        body {
+            height: 100%;
+        }
+        html {
+            display: table;
+            margin: auto;
+        }
+        body {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign Up</title>
+  </head>
+
+  <body class="cyan">
+        <!-- Form Section -->
+
+      <form method="post">
+        {% csrf_token %}
+    <div class="card-panel z-depth-5">
+        <p style="font-size:32px; color:#ff4081;"><strong>Social Distancing Monitoring System</strong></p>
+
+        <!-- Form Logo Section  -->
+
+        <div class="row margin">
+            <div class="col s12 m12 l12 center">
+                <!-- <img src="https://i.imgur.com/ypAbAYt.png" alt="" class="responsive-img circle" style="width:100px;"> -->
+            </div>
+        </div>
+
+        <!-- Form Username Input Section -->
+        <div class="col s12 m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">person</i>
+                <input type="email" name="email" placeholder="E-mail address" required id="id_email">
+                <label for="id_email">E-mail:</label> 
+            </div>
+        </div>
+        
+
+        <!-- Form Password Input Section -->
+        
+
+        <div class="col m12 l12">
+            <div class="input-field">
+                <i class="material-icons prefix">lock</i>
+                <input type="password" name="password1" placeholder="Password" required id="id_password1">
+                <label for="id_password1">Password:</label> 
+            </div>
+        </div>
+
+            <!-- Form Button Section  -->
+            
+
+            <div class="center">
+                <button class="btn waves-effect waves-light "style="width:100%; background-color: #ff4081;" type="submit">Sign Up</button>
+            </div>
+
+        <div class="" style="font-size:14px;"><br>
+            <a href="/accounts/login/" class="left">Log In</a>
+        </div><br>
+    </div>
+</form>
+
+
+
+              
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
+    <script type="text/javascript" 
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js">
+    </script>
+  </body>
+</html>

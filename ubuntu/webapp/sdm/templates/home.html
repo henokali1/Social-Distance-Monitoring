@@ -1,0 +1,73 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block body %}
+{% if user.is_authenticated %}  
+<p>
+  <a class="btn right noPrint" style="margin: 0.5rem; background-color: #ff4081;" href="{% url 'account_logout' %}">Log Out</a>
+  <a class="btn left noPrint" style="margin: 0.5rem; background-color: #ff4081;" href="/ip/">IPV4</a>
+</p><br>
+  <div class="container">
+    <div class="card">
+      <div class="container"><br><br><br>
+        <h4 class="center">Reports</h4>
+        
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="🔎 Search by location..." title="Type in a location">
+      
+    <table id="myTable" class="striped">
+      <tr class="header">
+        <th style="width:14%;">Report ID</th>
+        <th style="width:14%;">Date</th>
+        <th style="width:14%;">Time</th>
+        <th style="width:14%;">Location</th>
+        <th style="width:14%;">Gate</th>
+        <th style="width:14%;">Camera ID</th>
+      </tr>
+      {% for i in data %}
+      <tr onclick="details(`/report?rep_id={{i.rep_id}}&date={{i.date}}&time={{i.time}}&loc={{i.loc}}&gate={{i.gate}}&cam_id={{i.cam_id}}&img_url={{i.img_url}}`)">
+        <td>{{i.rep_id}}</td>
+        <td>{{i.date}}</td>
+        <td>{{i.time}}</td>
+        <td>{{i.loc}}</td>
+        <td>{{i.gate}}</td>
+        <td>{{i.cam_id}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+
+    <script>
+      function details(url){
+        window.open(url,"_self");
+      }
+    </script>
+
+    <script>
+    function myFunction() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[3];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+    </script>
+    <br><br><br>
+      </div>
+  </div>
+{% else %}
+  <script>window.open("/accounts/login/","_self")</script>
+{% endif %}
+
+{% endblock body %}
